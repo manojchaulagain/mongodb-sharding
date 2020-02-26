@@ -7,7 +7,7 @@ docker-compose -f config-server/docker-compose.yaml up -d
 ```
 Initiate replica set
 ```
-mongo mongodb://192.168.1.81:40001
+mongo mongodb://localhost:40001
 ```
 ```
 rs.initiate(
@@ -15,9 +15,9 @@ rs.initiate(
     _id: "cfgrs",
     configsvr: true,
     members: [
-      { _id : 0, host : "192.168.1.81:40001" },
-      { _id : 1, host : "192.168.1.81:40002" },
-      { _id : 2, host : "192.168.1.81:40003" }
+      { _id : 0, host : "localhost:40001" },
+      { _id : 1, host : "localhost:40002" },
+      { _id : 2, host : "localhost:40003" }
     ]
   }
 )
@@ -32,16 +32,16 @@ docker-compose -f shard1/docker-compose.yaml up -d
 ```
 Initiate replica set
 ```
-mongo mongodb://192.168.1.81:50001
+mongo mongodb://localhost:50001
 ```
 ```
 rs.initiate(
   {
     _id: "shard1rs",
     members: [
-      { _id : 0, host : "192.168.1.81:50001" },
-      { _id : 1, host : "192.168.1.81:50002" },
-      { _id : 2, host : "192.168.1.81:50003" }
+      { _id : 0, host : "localhost:50001" },
+      { _id : 1, host : "localhost:50002" },
+      { _id : 2, host : "localhost:50003" }
     ]
   }
 )
@@ -58,11 +58,11 @@ docker-compose -f mongos/docker-compose.yaml up -d
 ### Add shard to the cluster
 Connect to mongos
 ```
-mongo mongodb://192.168.1.81:60000
+mongo mongodb://localhost:60000
 ```
 Add shard
 ```
-mongos> sh.addShard("shard1rs/192.168.1.81:50001,192.168.1.81:50002,192.168.1.81:50003")
+mongos> sh.addShard("shard1rs/localhost:50001,localhost:50002,localhost:50003")
 mongos> sh.status()
 ```
 ## Adding another shard
@@ -73,16 +73,16 @@ docker-compose -f shard2/docker-compose.yaml up -d
 ```
 Initiate replica set
 ```
-mongo mongodb://192.168.1.81:50004
+mongo mongodb://localhost:50004
 ```
 ```
 rs.initiate(
   {
     _id: "shard2rs",
     members: [
-      { _id : 0, host : "192.168.1.81:50004" },
-      { _id : 1, host : "192.168.1.81:50005" },
-      { _id : 2, host : "192.168.1.81:50006" }
+      { _id : 0, host : "localhost:50004" },
+      { _id : 1, host : "localhost:50005" },
+      { _id : 2, host : "localhost:50006" }
     ]
   }
 )
@@ -92,10 +92,10 @@ rs.status()
 ### Add shard to the cluster
 Connect to mongos
 ```
-mongo mongodb://192.168.1.81:60000
+mongo mongodb://localhost:60000
 ```
 Add shard
 ```
-mongos> sh.addShard("shard2rs/192.168.1.81:50004,192.168.1.81:50005,192.168.1.81:50006")
+mongos> sh.addShard("shard2rs/localhost:50004,localhost:50005,localhost:50006")
 mongos> sh.status()
 ```
